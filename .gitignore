@@ -1,4 +1,6 @@
-# Ignore local account credentials, backups, and temporary files.
+# Local demo-production workspace (videos are copied into assets/).
+brag-output-*/
+
 providers.json
 providers.json.*
 *.tmp

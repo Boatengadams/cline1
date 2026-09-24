@@ -1,64 +1,96 @@
 # cline1
 
-`cline1` is a cross-platform account manager for the [Cline CLI](https://www.npmjs.com/package/cline). It supports:
+A cross-platform account manager for the [Cline CLI](https://www.npmjs.com/package/cline).
 
-1. New login
-2. Switch account
-3. Delete a locally saved account
+`cline1` gives people who use multiple Cline accounts one focused command for:
 
-The account logic is written in Node.js and runs on Linux, macOS, and Windows. Node.js is required because the Cline CLI is distributed through npm.
+1. **New login** — preserve the current session and start Cline authentication.
+2. **Switch account** — restore a saved local account and launch Cline.
+3. **Delete account** — remove a local saved login after confirmation.
 
-> **Security notice:** Cline CLI may save access and refresh tokens in `~/.cline/data/settings/providers.json`. `cline1` never prints those tokens, but its backups contain the same sensitive authentication data. Never publish account files or commit them to Git.
+> **Local-account safety:** Delete removes the local login file on your device. It does not delete the account from Cline's servers. Cline may store access and refresh tokens locally, so account files should never be committed or shared.
 
-## Install on Linux or macOS
+## Demo
 
-Run this single command:
+### Presentation demo
+
+![cline1 presentation demo](./assets/cline1-presentation.jpg)
+
+<video controls width="100%" preload="metadata" poster="./assets/cline1-presentation.jpg">
+  <source src="./assets/cline1-presentation.mp4" type="video/mp4">
+  Your browser does not support embedded video. <a href="./assets/cline1-presentation.mp4">Download the presentation demo</a>.
+</video>
+
+[Download the presentation video](./assets/cline1-presentation.mp4)
+
+### Social demo
+
+![cline1 social demo](./assets/cline1-social.jpg)
+
+<video controls width="100%" preload="metadata" poster="./assets/cline1-social.jpg">
+  <source src="./assets/cline1-social.mp4" type="video/mp4">
+  Your browser does not support embedded video. <a href="./assets/cline1-social.mp4">Download the social demo</a>.
+</video>
+
+[Download the social video](./assets/cline1-social.mp4)
+
+## Why cline1?
+
+Cline stores provider authentication in a local settings file. When one person uses more than one Cline account, switching manually can mean moving, renaming, and restoring sensitive local files.
+
+`cline1` keeps that process simple and repeatable:
+
+- It checks **Node.js first**.
+- It checks **Cline CLI second**.
+- It opens the account manager only after those checks pass.
+- It creates timestamped local backups with restricted permissions on Unix-like systems.
+- It runs on Linux, macOS, and Windows.
+
+## Install
+
+### Linux and macOS
+
+Run one command:
 
 ```bash
 git clone https://github.com/Boatengadams/cline1.git cline1 && cd cline1 && chmod +x cline1 install.sh && ./install.sh
 ```
 
-The installer checks for Node.js, copies the standalone `cline1` command into `~/.local/bin`, and adds that directory to your Bash/Zsh configuration automatically if needed. Open a new terminal afterward, then run:
+The installer checks for Node.js, offers to install it when needed, copies `cline1` to `~/.local/bin`, and updates your Bash/Zsh `PATH` automatically when necessary.
+
+Open a new terminal, then run:
 
 ```bash
 cline1
 ```
 
-You do not need to manually copy files, edit `PATH`, or run the application from the repository folder.
+### Windows PowerShell
 
-## Install on Windows
-
-Open PowerShell and run this single command:
+Run one command:
 
 ```powershell
 git clone https://github.com/Boatengadams/cline1.git cline1; Set-ExecutionPolicy -Scope Process Bypass; cd cline1; .\install.ps1
 ```
 
-The installer checks for Node.js, copies the command to `%LOCALAPPDATA%\cline1\bin`, and adds that directory to your user `PATH` automatically. Close and reopen PowerShell or Command Prompt, then run:
+The installer checks for Node.js, offers to install it with `winget` when available, copies the command to `%LOCALAPPDATA%\cline1\bin`, and updates your user `PATH`.
+
+Close and reopen PowerShell or Command Prompt, then run:
 
 ```powershell
 cline1
 ```
 
-## Startup order
+Node.js is required because Cline CLI is distributed through npm. Download it from [nodejs.org](https://nodejs.org/) if necessary.
 
-Every run follows this order:
+## Use
 
-1. Check that Node.js is installed. If missing, ask before installing it.
-2. Check that Cline CLI is installed. If missing, ask before installing it with npm.
-3. Open the `cline1` account manager.
-
-Linux/macOS can install Node.js with Homebrew or `apt`. Windows uses `winget` when available. If automatic installation is declined or unavailable, install Node.js from <https://nodejs.org/> and run `cline1` again.
-
-## Usage
-
-Run this from any directory:
+From any directory, run:
 
 ```bash
 cline1
 ```
 
-The menu is:
+The interactive menu is:
 
 ```text
 Choose an option:
@@ -68,40 +100,43 @@ Choose an option:
   4) Exit
 ```
 
+Useful options:
+
+```bash
+cline1 --check     # Check whether Cline CLI is installed
+cline1 --list      # List locally saved accounts
+cline1 --help      # Show command help
+```
+
+## What each action does
+
 ### New login
 
-The current account is backed up, the active local login is removed, and Cline starts its login flow:
+`cline1` copies the current `providers.json` to a timestamped backup, removes the active local login, and starts:
 
 ```bash
 cline auth cline
 ```
 
+The previous account remains available as a backup.
+
 ### Switch account
 
-Saved accounts are displayed with numbers. Selecting one backs up the active account, restores the selected account, and starts Cline.
+`cline1` lists the saved accounts, preserves the active session, restores the selected account atomically, and starts Cline.
 
 ### Delete account
 
-Select an account and confirm the deletion. This deletes only the local saved login. It does not delete the account from Cline's servers. Deleting the active account means the next Cline start will ask you to log in.
-
-## Commands
-
-```text
-cline1             Open the account manager
-cline1 --check     Check whether Cline is installed
-cline1 --list      List locally saved accounts
-cline1 --help      Show help
-```
+`cline1` shows active and saved accounts and asks for confirmation before deleting a local login. It never deletes the remote Cline account.
 
 ## Account storage
 
-Cline normally stores the active account at:
+The active Cline account normally lives at:
 
 ```text
 ~/.cline/data/settings/providers.json
 ```
 
-On Windows, `~` corresponds to your user home directory, so the path is typically:
+On Windows, this is typically:
 
 ```text
 C:\Users\<your-user>\.cline\data\settings\providers.json
@@ -113,58 +148,46 @@ Backups use names such as:
 providers.json.backup.YYYYMMDD-HHMMSS-12345
 ```
 
-On Linux and macOS, backups are created with user-only permissions (`600`). Windows uses the permissions provided by the user's home directory.
+On Linux and macOS, backup files are created with user-only permissions (`600`). Do not upload `providers.json` or any `providers.json.backup.*` file.
 
-## Manual installation
+## Project structure
 
-### Linux/macOS
-
-```bash
-mkdir -p ~/.local/bin
-cp cline1 cline1-app.js ~/.local/bin/
-chmod 755 ~/.local/bin/cline1 ~/.local/bin/cline1-app.js
-```
-
-### Windows PowerShell
-
-```powershell
-$bin = Join-Path $env:LOCALAPPDATA "cline1\bin"
-New-Item -ItemType Directory -Force $bin | Out-Null
-Copy-Item .\cline1-app.js, .\cline1.cmd $bin
-```
-
-Add `$bin` to your user `PATH` if needed.
-
-## Troubleshooting
-
-### `cline1` is not recognized
-
-Open a new terminal. Confirm the installation directory is in `PATH`, then run `cline1 --help`.
-
-### Cline is not recognized
-
-Install Node.js, then run:
-
-```bash
-npm install -g cline
-```
-
-### A restored account asks for login again
-
-The saved session may have expired or been revoked. Run:
-
-```bash
-cline auth cline
+```text
+cline1/
+├── cline1              # Linux/macOS launcher
+├── cline1-app.js       # Cross-platform Node.js account manager
+├── cline1.cmd          # Windows launcher
+├── install.sh          # Linux/macOS installer
+├── install.ps1         # Windows PowerShell installer
+├── assets/             # Demo posters and videos
+├── README.md
+└── .gitignore
 ```
 
 ## Security before publishing
 
-The `.gitignore` excludes common Cline account files and temporary files. Review staged content before publishing:
+The `.gitignore` excludes common Cline account files and temporary files. Review changes before sharing:
 
 ```bash
 git status --short
 git diff --cached
 ```
 
-Never publish `providers.json` or `providers.json.backup.*` files.
+Never publish:
 
+```text
+providers.json
+providers.json.backup.*
+```
+
+## Contributing
+
+Issues and pull requests are welcome. Please do not include real `providers.json` files, access tokens, refresh tokens, or other authentication data in issues or pull requests.
+
+## License
+
+No license has been selected yet. Add a license before distributing the project as an official open-source release.
+
+---
+
+**Built by BAGSGRAPHICS TECHNOLOGY.**
