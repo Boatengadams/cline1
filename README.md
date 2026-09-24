@@ -12,27 +12,15 @@ A cross-platform account manager for the [Cline CLI](https://www.npmjs.com/packa
 
 ## Demo
 
-### Presentation demo
+### Professional presentation demo
 
-![cline1 presentation demo](./assets/cline1-presentation.jpg)
+The animated demo below is a GitHub-friendly GIF generated from the 16:9 presentation video.
 
-<video controls autoplay muted loop playsinline width="100%" preload="metadata" poster="./assets/cline1-presentation.jpg">
-  <source src="./assets/cline1-presentation.mp4" type="video/mp4">
-  Your browser does not support embedded video. <a href="./assets/cline1-presentation.mp4">Download the presentation demo</a>.
-</video>
+![cline1 professional presentation demo](./assets/cline1-presentation.jpg)
 
-[Download the presentation video](./assets/cline1-presentation.mp4)
+![cline1 animated presentation demo](./assets/cline1-presentation.gif)
 
-### Social demo
-
-![cline1 social demo](./assets/cline1-social.jpg)
-
-<video controls autoplay muted loop playsinline width="100%" preload="metadata" poster="./assets/cline1-social.jpg">
-  <source src="./assets/cline1-social.mp4" type="video/mp4">
-  Your browser does not support embedded video. <a href="./assets/cline1-social.mp4">Download the social demo</a>.
-</video>
-
-[Download the social video](./assets/cline1-social.mp4)
+[Download the animated demo](./assets/cline1-presentation.gif)
 
 ## Why cline1?
 
