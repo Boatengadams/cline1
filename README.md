@@ -16,7 +16,7 @@ A cross-platform account manager for the [Cline CLI](https://www.npmjs.com/packa
 
 ![cline1 presentation demo](./assets/cline1-presentation.jpg)
 
-<video controls width="100%" preload="metadata" poster="./assets/cline1-presentation.jpg">
+<video controls autoplay muted loop playsinline width="100%" preload="metadata" poster="./assets/cline1-presentation.jpg">
   <source src="./assets/cline1-presentation.mp4" type="video/mp4">
   Your browser does not support embedded video. <a href="./assets/cline1-presentation.mp4">Download the presentation demo</a>.
 </video>
@@ -27,7 +27,7 @@ A cross-platform account manager for the [Cline CLI](https://www.npmjs.com/packa
 
 ![cline1 social demo](./assets/cline1-social.jpg)
 
-<video controls width="100%" preload="metadata" poster="./assets/cline1-social.jpg">
+<video controls autoplay muted loop playsinline width="100%" preload="metadata" poster="./assets/cline1-social.jpg">
   <source src="./assets/cline1-social.mp4" type="video/mp4">
   Your browser does not support embedded video. <a href="./assets/cline1-social.mp4">Download the social demo</a>.
 </video>
