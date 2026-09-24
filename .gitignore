@@ -1,0 +1,10 @@
+# Ignore local account credentials, backups, and temporary files.
+providers.json
+providers.json.*
+*.tmp
+*.tmp.*
+
+# Editor and OS files.
+.DS_Store
+.vscode/
+.idea/

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+if ! command -v node >/dev/null 2>&1; then
+  printf '%s\n' 'Node.js is required but was not found.'
+  printf '%s' 'Install Node.js now? [y/N]: '
+  read -r reply || reply=""
+  if [[ "$reply" =~ ^[Yy]([Ee][Ss])?$ ]]; then
+    if command -v brew >/dev/null 2>&1; then
+      brew install node
+    elif command -v apt-get >/dev/null 2>&1; then
+      sudo apt-get update && sudo apt-get install -y nodejs npm
+    else
+      printf '%s\n' 'Install Node.js from https://nodejs.org/ and run cline1 again.' >&2
+      exit 1
+    fi
+  else
+    printf '%s\n' 'Node.js is required. Install it from https://nodejs.org/ and run cline1 again.' >&2
+    exit 1
+  fi
+fi
+
+exec node "$SCRIPT_DIR/cline1-app.js" "$@"
